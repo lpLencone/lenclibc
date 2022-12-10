@@ -8,18 +8,17 @@
 
 #include <stddef.h> // size_t
 
-struct Queue
+struct queue
 {
-    struct Node *first;
-    struct Node *last;
-    int length;
+    struct node *first;
+    struct node *last;
 };
 
-int queue_push(struct Queue *queue, void *data, size_t size);
-int queue_pop(struct Queue *queue);
-void *queue_peek(struct Queue *queue);
+int queue_push(struct queue *queue, void *data, size_t size);
+int queue_pop(struct queue *queue);
+void *queue_peek(struct queue *queue);
 
-struct Queue *queue_init();
-int queue_delete(struct Queue *queue);
+struct queue *queue_init();
+int queue_delete(struct queue *queue);
 
 #endif /* queue_h */

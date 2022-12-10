@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <string.h> // memcpy
 
-struct Node *node_init(void *data, size_t size)
+struct node *node_init(void *data, size_t size)
 {
-    struct Node *node = (struct Node *)malloc(sizeof(struct Node));
+    struct node *node = (struct node *)malloc(sizeof(struct node));
     node->prev = NULL;
     node->next = NULL;
     node->data = malloc(size);
@@ -14,7 +14,7 @@ struct Node *node_init(void *data, size_t size)
     return node;
 }
 
-void node_delete(struct Node *node)
+void node_delete(struct node *node)
 {    
     free(node->data);
     free(node);

@@ -3,14 +3,14 @@
 
 #include <stddef.h> // size_t
 
-struct Node
+struct node
 {
-    struct Node *prev;
-    struct Node *next;
+    struct node *prev;
+    struct node *next;
     void *data;
 };
 
-struct Node *node_init(void *data, size_t size);
-void node_delete(struct Node *node);
+struct node *node_init(void *data, size_t size);
+void node_delete(struct node *node);
 
 #endif /* node_h */

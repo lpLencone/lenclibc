@@ -2,31 +2,28 @@
 
 #include <stdlib.h>
 
-struct Queue *queue_init()
+struct queue *queue_init()
 {
-    struct Queue *queue = (struct Queue *)malloc(sizeof(struct Queue));
+    struct queue *queue;
     queue->first = NULL;
     queue->last = NULL;
-    queue->length = 0;
     return queue;
 }
 
-int queue_delete(struct Queue *queue)
+int queue_delete(struct queue *queue)
 {
     if (queue == NULL) {
         return NULL_ARGUMENT;
     }
-    for (int i = 0, len = queue->length; i < len; i++) {
-        queue_pop(queue);
-    }
-    free(queue);
+    while (queue_pop(queue) != EMPTY_QUEUE);
+    return 0;
 }
 
-int queue_push(struct Queue *queue, void *data, size_t size) {
+int queue_push(struct queue *queue, void *data, size_t size) {
     if (queue == NULL) {
         return NULL_ARGUMENT;
     }
-    struct Node *node = node_init(data, size);
+    struct node *node = node_init(data, size);
     if (queue->last != NULL) {
         queue->last->next = node;
     }
@@ -34,11 +31,10 @@ int queue_push(struct Queue *queue, void *data, size_t size) {
         queue->first = node;
     }
     queue->last = node;
-    queue->length++;
     return 0;    
 }
 
-int queue_pop(struct Queue *queue)
+int queue_pop(struct queue *queue)
 {
     if (queue == NULL) {
         return NULL_ARGUMENT;
@@ -46,14 +42,13 @@ int queue_pop(struct Queue *queue)
     else if (queue->first == NULL) {
         return EMPTY_QUEUE;
     }
-    struct Node *node = queue->first;
+    struct node *node = queue->first;
     queue->first = node->next;
     node_delete(node);
-    queue->length--;
     return 0;
 }
 
-void *queue_peek(struct Queue *queue)
+void *queue_peek(struct queue *queue)
 {
     if (queue == NULL) {
         return (void *)NULL_ARGUMENT;
@@ -63,4 +58,3 @@ void *queue_peek(struct Queue *queue)
     }
     return queue->first->data;
 }
-
