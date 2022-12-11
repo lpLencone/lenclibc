@@ -5,7 +5,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
-struct Server
+struct server
 {
     int domain;
     int service;
@@ -18,11 +18,11 @@ struct Server
 
     int socket;
 
-    void (*launch)(struct Server *server);
+    void (*launch)(struct server *server);
 };
 
-struct Server *server_init(int domain, int service, int protocol, u_long interface, int port, int backlog, void (*launch)(struct Server *server));
+struct server *server_init(int domain, int service, int protocol, u_long interface, int port, int backlog, void (*launch)(struct server *server));
 
-void server_delete(struct Server *server);
+void server_delete(struct server *server);
 
 #endif /* server_h */

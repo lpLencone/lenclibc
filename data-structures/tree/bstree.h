@@ -3,8 +3,9 @@
 
 #include "../node/node.h"
 
-#define NULL_ARGUMENT 11
-#define EMPTY_TREE    12
+#define NULL_ARGUMENT    11
+#define EMPTY_TREE       12
+#define INVALID_ARGUMENT 13
 
 struct bstree
 {
@@ -14,10 +15,9 @@ struct bstree
 
 // int bsearchtree_compare(void *data_1, void *data_2);
 void *bstree_search(struct bstree *tree, void *data);
-void bstree_insert(struct bstree *tree, void *data, size_t size);
+int bstree_insert(struct bstree *tree, void *data, size_t size);
 
 struct bstree *bstree_init(int (*compare)(void *data_1, void *data_2));
-void bstree_delete(struct bstree *tree);
-
+int bstree_delete(struct bstree *tree);
 
 #endif /* binary_search_tree_h */

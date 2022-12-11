@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Server *server_init(int domain, int service, int protocol, u_long interface, int port, int backlog, void (*launch)(struct Server *server))
+struct server *server_init(int domain, int service, int protocol, u_long interface, int port, int backlog, void (*launch)(struct server *server))
 {
-    struct Server *server = (struct Server *)malloc(sizeof(struct Server));
+    struct server *server = (struct server *)malloc(sizeof(struct server));
     server->domain = domain;
     server->service = service;
     server->protocol = protocol;
@@ -35,7 +35,7 @@ struct Server *server_init(int domain, int service, int protocol, u_long interfa
     return server;
 }
 
-void server_delete(struct Server *server)
+void server_delete(struct server *server)
 {
     free(server);
 }
