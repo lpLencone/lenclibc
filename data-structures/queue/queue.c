@@ -4,7 +4,7 @@
 
 struct queue *queue_init()
 {
-    struct queue *queue;
+    struct queue *queue = (struct queue *)malloc(sizeof(struct queue));
     queue->first = NULL;
     queue->last = NULL;
     return queue;
@@ -16,6 +16,7 @@ int queue_delete(struct queue *queue)
         return NULL_ARGUMENT;
     }
     while (queue_pop(queue) != EMPTY_QUEUE);
+    free(queue);
     return 0;
 }
 
@@ -50,11 +51,8 @@ int queue_pop(struct queue *queue)
 
 void *queue_peek(struct queue *queue)
 {
-    if (queue == NULL) {
-        return (void *)NULL_ARGUMENT;
-    }
-    else if (queue->first == NULL) {
-        return (void *)EMPTY_QUEUE;
+    if (queue == NULL || queue->first == NULL) {
+        return NULL;
     }
     return queue->first->data;
 }

@@ -58,6 +58,22 @@ int bstree_insert(struct bstree *tree, void *data, size_t size)
 }
 
 //
+// PUBLIC HELPER FUNCTIONS
+//
+int bstree_cmp_int(void *int_1, void *int_2)
+{
+    if (*(int *)int_1 < *(int *)int_2) {
+        return -1;
+    }
+    else if (*(int *)int_1 == *(int *)int_2) {
+        return 0;
+    }
+    else {
+        return 1;
+    }
+}
+
+//
 // PRIVATE FUNCTIONS
 //
 void __delete_tree_recursive(struct node *parent)

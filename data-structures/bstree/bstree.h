@@ -13,9 +13,9 @@ struct bstree
     int (*compare)(void *data_1, void *data_2);
 };
 
-// int bsearchtree_compare(void *data_1, void *data_2);
 void *bstree_search(struct bstree *tree, void *data);
 int bstree_insert(struct bstree *tree, void *data, size_t size);
+int bstree_cmp_int(void *int_1, void *int_2);
 
 struct bstree *bstree_init(int (*compare)(void *data_1, void *data_2));
 int bstree_delete(struct bstree *tree);

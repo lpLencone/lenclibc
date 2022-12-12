@@ -1,23 +1,22 @@
-#include "linked-list.h"
+#include "list.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-struct node *__retrieve_node_at(struct linkedlist *list, int at);
-struct node *__retrieve_node_by_data(struct linkedlist *list, void *data, size_t size);
-void __remove_node(struct linkedlist *list, struct node *node);
+struct node *__retrieve_node_at(struct list *list, int at);
+struct node *__retrieve_node_by_data(struct list *list, void *data, size_t size);
+void __remove_node(struct list *list, struct node *node);
 
-struct linkedlist *linkedlist_init()
+struct list *list_init()
 {
-    struct linkedlist *list = (struct linkedlist *)malloc(sizeof(struct linkedlist));
+    struct list *list = (struct list *)malloc(sizeof(struct list));
     list->head = NULL;
     list->tail = NULL;
     list->length = 0;
     return list;
 }
 
-int linkedlist_delete(struct linkedlist *list)
+int list_delete(struct list *list)
 {
     if (list == NULL) {
         return NULL_ARGUMENT;
@@ -33,7 +32,7 @@ int linkedlist_delete(struct linkedlist *list)
     }
 }
 
-int linkedlist_append(struct linkedlist *list, void *data, size_t size)
+int list_append(struct list *list, void *data, size_t size)
 {
     if (list == NULL) {
         return NULL_ARGUMENT;
@@ -51,7 +50,7 @@ int linkedlist_append(struct linkedlist *list, void *data, size_t size)
     return 0;
 }
 
-int linkedlist_insert(struct linkedlist *list, int at, void *data, size_t size)
+int list_insert(struct list *list, int at, void *data, size_t size)
 {
     if (list == NULL) {
         return NULL_ARGUMENT;
@@ -89,7 +88,7 @@ int linkedlist_insert(struct linkedlist *list, int at, void *data, size_t size)
     return 0;
 }
 
-void *linkedlist_retrieve(struct linkedlist *list, int at)
+void *list_retrieve(struct list *list, int at)
 {
     if (list == NULL) {
         return (void *)NULL_ARGUMENT;
@@ -101,7 +100,7 @@ void *linkedlist_retrieve(struct linkedlist *list, int at)
     return node->data;
 }
 
-int linkedlist_pop_head(struct linkedlist *list)
+int list_pop_head(struct list *list)
 {
     if (list == NULL) {
         return NULL_ARGUMENT;
@@ -113,7 +112,7 @@ int linkedlist_pop_head(struct linkedlist *list)
     return 0;
 }
 
-int linkedlist_pop_tail(struct linkedlist *list)
+int list_pop_tail(struct list *list)
 {
     if (list == NULL) {
         return NULL_ARGUMENT;
@@ -125,7 +124,7 @@ int linkedlist_pop_tail(struct linkedlist *list)
     return 0;
 }
 
-int linkedlist_remove_from(struct linkedlist *list, int at)
+int list_remove_from(struct list *list, int at)
 {
     if (list == NULL) {
         return NULL_ARGUMENT;
@@ -141,7 +140,7 @@ int linkedlist_remove_from(struct linkedlist *list, int at)
     return 0;
 }
 
-int linkedlist_remove_data(struct linkedlist *list, void *data, size_t size)
+int list_remove_data(struct list *list, void *data, size_t size)
 {
     if (list == NULL) {
         return NULL_ARGUMENT;
@@ -162,7 +161,7 @@ int linkedlist_remove_data(struct linkedlist *list, void *data, size_t size)
 // PRIVATE FUNCTIONS
 //
 
-struct node *__retrieve_node_by_data(struct linkedlist *list, void *data, size_t size)
+struct node *__retrieve_node_by_data(struct list *list, void *data, size_t size)
 {
     struct node *cursor = list->head;
     while (cursor != NULL && memcmp(cursor->data, data, size) != 0) {
@@ -171,7 +170,7 @@ struct node *__retrieve_node_by_data(struct linkedlist *list, void *data, size_t
     return cursor;
 }
 
-struct node *__retrieve_node_at(struct linkedlist *list, int at)
+struct node *__retrieve_node_at(struct list *list, int at)
 {
     struct node *cursor;
     if (at >= 0 && at < list->length / 2) {
@@ -201,7 +200,7 @@ struct node *__retrieve_node_at(struct linkedlist *list, int at)
     return cursor;
 }
 
-void __remove_node(struct linkedlist *list, struct node *node)
+void __remove_node(struct list *list, struct node *node)
 {
     if (node->prev != NULL) {
         node->prev->next = node->next;

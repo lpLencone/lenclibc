@@ -1,6 +1,5 @@
 #include "dict.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -28,9 +27,10 @@ void *dict_search(struct dict *dict, void *key, size_t key_size)
     int dummy_value = 0;
     struct entry *searchable = entry_init(key, key_size, (void *)&dummy_value, sizeof(dummy_value));
 
-    // Use the iterate function of the BinarySearchTree to find the desired element.
+    // Use the iterate function of the bstree to find the desired element.
     void *result = bstree_search(dict->tree, searchable);
 
+    free(searchable);
     // Return either the value for that key or NULL if not found.
     if (result != NULL) {
         return ((struct entry *)result)->val;
@@ -58,6 +58,21 @@ int dict_strcmp_keys(void *entry_1, void *entry_2)
         return -1;
     }
     else if (cmp_result == 0) {
+        return 0;
+    }
+    else {
+        return 1;
+    }
+}
+
+int dict_intcmp_keys(void *entry_1, void *entry_2)
+{
+    int key_1 = *(int *)(((struct entry *)entry_1)->key);
+    int key_2 = *(int *)(((struct entry *)entry_2)->key);
+    if (key_1 < key_2) {
+        return -1;
+    }
+    else if (key_1 == key_2) {
         return 0;
     }
     else {
