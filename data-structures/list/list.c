@@ -16,7 +16,7 @@ struct list *list_init()
     return list;
 }
 
-int list_delete(struct list *list)
+int list_destroy(struct list *list)
 {
     if (list == NULL) {
         return NULL_ARGUMENT;
@@ -26,7 +26,7 @@ int list_delete(struct list *list)
         struct node *temp;
         while (cursor != NULL) {
             temp = cursor->next;
-            node_delete(cursor);
+            node_destroy(cursor);
             cursor = temp;
         }
     }
@@ -214,6 +214,6 @@ void __remove_node(struct list *list, struct node *node)
     else {
         list->tail = node->prev;
     }
-    node_delete(node);
+    node_destroy(node);
     list->length--;
 }

@@ -9,7 +9,7 @@ struct stack *stack_init()
     return stack;
 }
 
-int stack_delete(struct stack *stack)
+int stack_destroy(struct stack *stack)
 {
     if (stack == NULL) {
         return NULL_ARGUMENT;
@@ -18,7 +18,7 @@ int stack_delete(struct stack *stack)
     struct node *tmp;
     while (junk != NULL) {
         tmp = junk->next;
-        node_delete(junk);
+        node_destroy(junk);
         junk = tmp;
     }
     free(stack);
@@ -48,7 +48,7 @@ int stack_ditch(struct stack *stack)
         return EMPTY_STACK;
     }
     struct node *below = stack->top->next;
-    node_delete(stack->top);
+    node_destroy(stack->top);
     stack->top = below;
     return 0;
 }

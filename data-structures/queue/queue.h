@@ -19,6 +19,6 @@ int queue_pop(struct queue *queue);
 void *queue_peek(struct queue *queue);
 
 struct queue queue_init();
-int queue_delete(struct queue *queue);
+int queue_destroy(struct queue *queue);
 
 #endif /* queue_h */

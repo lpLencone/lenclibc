@@ -17,6 +17,6 @@ struct http_req
 };
 
 struct http_req http_req_init(char *request_string);
-int http_req_delete(struct http_req *http_req);
+int http_req_destroy(struct http_req *http_req);
 
 #endif /* http_request_h */

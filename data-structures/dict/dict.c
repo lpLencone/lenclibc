@@ -40,12 +40,12 @@ void *dict_search(struct dict *dict, void *key, size_t key_size)
     }
 }
 
-int dict_delete(struct dict *dict)
+int dict_destroy(struct dict *dict)
 {
     if (dict == NULL) {
         return NULL_ARGUMENT;
     }
-    bstree_delete(dict->tree);
+    bstree_destroy(dict->tree);
 }
 
 // PUBLIC HELPER FUNCTIONS

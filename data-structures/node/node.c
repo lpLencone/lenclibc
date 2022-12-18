@@ -14,7 +14,7 @@ struct node *node_init(void *data, size_t size)
     return node;
 }
 
-void node_delete(struct node *node)
+void node_destroy(struct node *node)
 {    
     free(node->data);
     free(node);

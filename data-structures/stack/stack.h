@@ -27,6 +27,6 @@ int stack_ditch(struct stack *stack);
 void *stack_peek(struct stack *stack);
 
 struct stack *stack_init();
-int stack_delete(struct stack *stack);
+int stack_destroy(struct stack *stack);
 
 #endif /* stack_h */

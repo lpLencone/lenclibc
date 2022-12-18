@@ -43,14 +43,14 @@ struct http_req http_req_init(char *request_string)
 /**
  * \param http_req it's a struct http_req reference
 */
-int http_req_delete(struct http_req *http_req)
+int http_req_destroy(struct http_req *http_req)
 {
     if (http_req == NULL) {
         return NULL_ARGUMENT;
     }
-    dict_delete(&http_req->header_fields);
-    dict_delete(&http_req->request_line);
-    dict_delete(&http_req->body);
+    dict_destroy(&http_req->header_fields);
+    dict_destroy(&http_req->request_line);
+    dict_destroy(&http_req->body);
     return 0;
 }
 
@@ -118,7 +118,7 @@ void extract_header_fields(struct http_req *http_req, char *header_fields)
         header = (char *)stack_peek(headers);
     }
     // Destroy the stack.
-    stack_delete(headers);
+    stack_destroy(headers);
 }
 
 // Parses the body according to the content type specified in the header fields.
@@ -131,13 +131,13 @@ void extract_body(struct http_req *http_req, char *body)
         struct dict body_fields = dict_init(dict_strcmp_keys);
         if (strcmp(content_type, "application/x-www-form-urlencoded") == 0) {
             // Collect each key value pair as a set and store them in a queue.
-            struct queue *fields = queue_init();
+            struct queue fields = queue_init();
             char *field = strtok(body, "&");
             while (field != NULL) {
-                queue_push(fields, field, sizeof(char) * strlen(field));
+                queue_push(&fields, field, sizeof(char) * strlen(field));
             }
             // Iterate over the queue to further separate keys from values.
-            field = queue_peek(fields);
+            field = queue_peek(&fields);
             while (field != NULL) {
                 char *key = strtok(field, "=");
                 char *val = strtok(NULL, "\0");
@@ -148,11 +148,11 @@ void extract_body(struct http_req *http_req, char *body)
                 // Insert the key value pair into the dictionary.
                 dict_insert(&body_fields, key, sizeof(char) * strlen(key), val, sizeof(char) * strlen(val));
                 // Collect the next item in the queue.
-                queue_pop(fields);
-                field = queue_peek(fields);
+                queue_pop(&fields);
+                field = queue_peek(&fields);
             }
             // Destroy the queue.
-            queue_delete(fields);
+            queue_destroy(&fields);
         }
         else {
             // Save the data as a single key value pair.

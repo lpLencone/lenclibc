@@ -11,6 +11,6 @@ struct node
 };
 
 struct node *node_init(void *data, size_t size);
-void node_delete(struct node *node);
+void node_destroy(struct node *node);
 
 #endif /* node_h */

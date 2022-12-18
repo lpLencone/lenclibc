@@ -13,7 +13,7 @@ struct entry *entry_init(void *key, size_t key_size, void *val, size_t val_size)
     return entry;
 }
 
-void entry_delete(struct entry *entry)
+void entry_destroy(struct entry *entry)
 {
     free(entry->key);
     free(entry->val);

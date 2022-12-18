@@ -10,7 +10,7 @@ struct queue queue_init()
     return queue;
 }
 
-int queue_delete(struct queue *queue)
+int queue_destroy(struct queue *queue)
 {
     if (queue == NULL) {
         return NULL_ARGUMENT;
@@ -44,7 +44,7 @@ int queue_pop(struct queue *queue)
     }
     struct node *node = queue->first;
     queue->first = node->next;
-    node_delete(node);
+    node_destroy(node);
     return 0;
 }
 

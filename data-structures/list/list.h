@@ -25,6 +25,6 @@ int list_remove_from(struct list *list, int from);
 int list_remove_data(struct list *list, void *data, size_t size);
 
 struct list *list_init();
-int list_delete(struct list *list);
+int list_destroy(struct list *list);
 
 #endif /* linked_list_h */

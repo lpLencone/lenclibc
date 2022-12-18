@@ -18,6 +18,6 @@ int dict_intcmp_keys(void *entry_1, void *entry_2);
 
 // Constructor / destructor
 struct dict dict_init(int (*compare_keys_function)(void *key_1, void *key_2));
-int dict_delete(struct dict *dict);
+int dict_destroy(struct dict *dict);
 
 #endif /* dictionary_h */

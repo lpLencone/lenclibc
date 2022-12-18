@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 struct node *__bstree_iterate(struct bstree *tree, struct node *cursor, void *data, int *direction);
-void __delete_tree_recursive(struct node *parent);
+void __destroy_tree_recursive(struct node *parent);
 
 struct bstree *bstree_init(int (*compare)(void *data_1, void *data_2))
 {
@@ -13,12 +13,12 @@ struct bstree *bstree_init(int (*compare)(void *data_1, void *data_2))
     return tree;
 }
 
-int bstree_delete(struct bstree *tree)
+int bstree_destroy(struct bstree *tree)
 {
     if (tree == NULL) {
         return NULL_ARGUMENT;
     }
-    __delete_tree_recursive(tree->head);
+    __destroy_tree_recursive(tree->head);
     free(tree);
 }
 
@@ -76,18 +76,18 @@ int bstree_cmp_int(void *int_1, void *int_2)
 //
 // PRIVATE FUNCTIONS
 //
-void __delete_tree_recursive(struct node *parent)
+void __destroy_tree_recursive(struct node *parent)
 {
     if (parent == NULL) {
         return;
     }
     if (parent->prev != NULL) {
-        __delete_tree_recursive(parent->prev);
+        __destroy_tree_recursive(parent->prev);
     }
     if (parent->next != NULL) {
-        __delete_tree_recursive(parent->next);
+        __destroy_tree_recursive(parent->next);
     }
-    node_delete(parent);
+    node_destroy(parent);
 }
 
 struct node *__bstree_iterate(struct bstree *tree, struct node *cursor, void *data, int *direction)
