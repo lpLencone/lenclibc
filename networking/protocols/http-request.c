@@ -14,10 +14,10 @@ void extract_request_line_fields(struct http_req *http_req, char *request_line);
 void extract_header_fields(struct http_req *http_req, char *header_fields);
 void extract_body(struct http_req *http_req, char *body);
 
-struct http_req *http_req_init(char *request_string)
+struct http_req http_req_init(char *request_string)
 {
     // New request object.
-    struct http_req *http_req = (struct http_req *)malloc(sizeof(struct http_req));
+    struct http_req http_req;
 
     char request_buf[strlen(request_string) + 1];
     strcpy(request_buf, request_string);
@@ -33,22 +33,24 @@ struct http_req *http_req_init(char *request_string)
     char *body = strtok_r(tokenptr, "|", &tokenptr);
 
     // Parse each section as needed.
-    extract_request_line_fields(http_req, request_line);
-    extract_header_fields(http_req, header_fields);
-    extract_body(http_req, body);
+    extract_request_line_fields(&http_req, request_line);
+    extract_header_fields(&http_req, header_fields);
+    extract_body(&http_req, body);
     // Return the final product.
     return http_req;
 }
 
+/**
+ * \param http_req it's a struct http_req reference
+*/
 int http_req_delete(struct http_req *http_req)
 {
     if (http_req == NULL) {
         return NULL_ARGUMENT;
     }
-    dict_delete(http_req->header_fields);
-    dict_delete(http_req->request_line);
-    dict_delete(http_req->body);
-    free(http_req);
+    dict_delete(&http_req->header_fields);
+    dict_delete(&http_req->request_line);
+    dict_delete(&http_req->body);
     return 0;
 }
 
@@ -68,15 +70,15 @@ void extract_request_line_fields(struct http_req *http_req, char *request_line)
     char *version = strtok_r(tokenptr, "\0", &tokenptr);
 
     // Insert the results into the request object as a dictionary.
-    struct dict *request_line_dict = dict_init(dict_strcmp_keys);
-    dict_insert(request_line_dict, "method", sizeof("method"), method, sizeof(char) * strlen(method));
-    dict_insert(request_line_dict, "uri", sizeof("uri"), uri, sizeof(char) * strlen(uri));
-    dict_insert(request_line_dict, "version", sizeof("version"), version, sizeof(char) * strlen(version));
+    struct dict request_line_dict = dict_init(dict_strcmp_keys);
+    dict_insert(&request_line_dict, "method", sizeof("method"), method, sizeof(char) * strlen(method));
+    dict_insert(&request_line_dict, "uri", sizeof("uri"), uri, sizeof(char) * strlen(uri));
+    dict_insert(&request_line_dict, "version", sizeof("version"), version, sizeof(char) * strlen(version));
 
     // Save the dictionary to the request object.
     http_req->request_line = request_line_dict;
-    if (dict_search(http_req->request_line, "GET", sizeof("GET"))) {
-        extract_body(http_req, (char *)dict_search(http_req->request_line, "uri", sizeof("uri")));
+    if (dict_search(&http_req->request_line, "GET", sizeof("GET"))) {
+        extract_body(http_req, (char *)dict_search(&http_req->request_line, "uri", sizeof("uri")));
     }
 }
 
@@ -109,7 +111,7 @@ void extract_header_fields(struct http_req *http_req, char *header_fields)
                 val++;
             }
             // Push the key value pairs into the request's header_fields dictionary.
-            dict_insert(http_req->header_fields, key, sizeof(char) * strlen(key), val, sizeof(char) * strlen(val));
+            dict_insert(&http_req->header_fields, key, sizeof(char) * strlen(key), val, sizeof(char) * strlen(val));
         }
         // Collect the next field from the stack.
         stack_ditch(headers);
@@ -123,10 +125,10 @@ void extract_header_fields(struct http_req *http_req, char *header_fields)
 void extract_body(struct http_req *http_req, char *body)
 {
     // Check what content type needs to be parsed
-    char *content_type = dict_search(http_req->header_fields, "Content-Type", sizeof("Content-Type"));
+    char *content_type = dict_search(&http_req->header_fields, "Content-Type", sizeof("Content-Type"));
     if (content_type != NULL) {
         // Initialize the body_fields dictionary.
-        struct dict *body_fields = dict_init(dict_strcmp_keys);
+        struct dict body_fields = dict_init(dict_strcmp_keys);
         if (strcmp(content_type, "application/x-www-form-urlencoded") == 0) {
             // Collect each key value pair as a set and store them in a queue.
             struct queue *fields = queue_init();
@@ -144,7 +146,7 @@ void extract_body(struct http_req *http_req, char *body)
                     val++;
                 }
                 // Insert the key value pair into the dictionary.
-                dict_insert(body_fields, key, sizeof(char) * strlen(key), val, sizeof(char) * strlen(val));
+                dict_insert(&body_fields, key, sizeof(char) * strlen(key), val, sizeof(char) * strlen(val));
                 // Collect the next item in the queue.
                 queue_pop(fields);
                 field = queue_peek(fields);
@@ -154,14 +156,11 @@ void extract_body(struct http_req *http_req, char *body)
         }
         else {
             // Save the data as a single key value pair.
-            dict_insert(body_fields, "data", sizeof("data"), body, sizeof(char) * strlen(body));
+            dict_insert(&body_fields, "data", sizeof("data"), body, sizeof(char) * strlen(body));
         }
         // Set the request's body dictionary.
         http_req->body = body_fields;
     } /* content_type != NULL*/
-    else {
-        http_req->body = NULL;
-    }
 }
 
 

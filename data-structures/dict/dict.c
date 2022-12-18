@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct dict *dict_init(int (*compare)(void *key_1, void *key_2))
+struct dict dict_init(int (*compare_keys_function)(void *key_1, void *key_2))
 {
-    struct dict *dict = (struct dict *)malloc(sizeof(struct dict));
-    dict->tree = bstree_init(compare);
+    struct dict dict;
+    dict.tree = bstree_init(compare_keys_function);
     return dict;
 }
 
@@ -46,7 +46,6 @@ int dict_delete(struct dict *dict)
         return NULL_ARGUMENT;
     }
     bstree_delete(dict->tree);
-    free(dict);
 }
 
 // PUBLIC HELPER FUNCTIONS

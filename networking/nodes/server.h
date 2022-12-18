@@ -21,7 +21,7 @@ struct server
     void (*launch)(struct server *server);
 };
 
-struct server *server_init(int domain, int service, int protocol, u_long interface, int port, int backlog, void (*launch)(struct server *server));
+struct server server_init(int domain, int service, int protocol, u_long interface, int port, int backlog, void (*launch)(struct server *server));
 
 void server_delete(struct server *server);
 

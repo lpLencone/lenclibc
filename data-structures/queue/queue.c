@@ -2,11 +2,11 @@
 
 #include <stdlib.h>
 
-struct queue *queue_init()
+struct queue queue_init()
 {
-    struct queue *queue = (struct queue *)malloc(sizeof(struct queue));
-    queue->first = NULL;
-    queue->last = NULL;
+    struct queue queue;
+    queue.first = NULL;
+    queue.last = NULL;
     return queue;
 }
 
@@ -16,7 +16,6 @@ int queue_delete(struct queue *queue)
         return NULL_ARGUMENT;
     }
     while (queue_pop(queue) != EMPTY_QUEUE);
-    free(queue);
     return 0;
 }
 

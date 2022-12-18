@@ -1,6 +1,4 @@
-#include "./list/list.h"
-#include "./queue/queue.h"
-#include "./dict/dict.h"
+#include "../data-structures/data-structures.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -76,27 +74,27 @@ void list_example()
 // working
 void queue_example()
 {
-    struct queue *queue = queue_init();
+    struct queue queue = queue_init();
     float *data = (float *)malloc(sizeof(float));
     for (int i = 0; i < 10; i++) {
         *data = 3.0 / (i + 1);
-        queue_push(queue, data, sizeof(float));
+        queue_push(&queue, data, sizeof(float));
     }
 
     printf("nodes pushed\n");
     
-    while (queue->first != NULL) {
-        printf("%f ", *(float *)queue_peek(queue));
-        queue_pop(queue);
+    while (queue.first != NULL) {
+        printf("%f ", *(float *)queue_peek(&queue));
+        queue_pop(&queue);
     }
 
-    queue_delete(queue);
+    queue_delete(&queue);
 }
 
 void dict_example()
 {
     srand(time(NULL));
-    struct dict *dict = dict_init(dict_intcmp_keys);
+    struct dict dict = dict_init(dict_intcmp_keys);
 
     int *key = (int *)malloc(sizeof(int));
     float *val = (float *)malloc(sizeof(float));
@@ -105,7 +103,7 @@ void dict_example()
         *val = rand() / (float) RAND_MAX * 100;
         printf("%d : %f\n", *key, *val);
 
-        dict_insert(dict, key, sizeof(int), val, sizeof(float));
+        dict_insert(&dict, key, sizeof(int), val, sizeof(float));
     }
 
     printf("\nentries inserted\n\n");
@@ -113,7 +111,7 @@ void dict_example()
     for (int i = 0; i < 20; i++) {
         *key = i;
         printf("search for key %2d : ", *key);
-        val = (float *)dict_search(dict, key, sizeof(int));
+        val = (float *)dict_search(&dict, key, sizeof(int));
         if (val == NULL) {
             printf("none\n");
             continue;
@@ -121,7 +119,7 @@ void dict_example()
         printf("%f\n", *val);
     }
 
-    dict_delete(dict);
+    dict_delete(&dict);
 }
 
 

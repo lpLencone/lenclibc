@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "bstree.h": "c",
+        "dict.h": "c"
+    }
+}
